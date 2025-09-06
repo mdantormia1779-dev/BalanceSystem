@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Balance System</title>
+<script>
+  window.onload = function() {
+    let isFormChanged = false;
+
+    // যখন ডিপোজিট বা উইথড্র বাটনে ক্লিক হবে তখন চেঞ্জ ধরে নিবো
+    document.getElementById("depositbtn").addEventListener("click", function() {
+      isFormChanged = true;
+    });
+
+    document.getElementById("withdrawbtn").addEventListener("click", function() {
+      isFormChanged = true;
+    });
+
+    window.addEventListener("beforeunload", function (e) {
+      if (isFormChanged) {
+        e.preventDefault();     // কিছু ব্রাউজারে দরকার
+        e.returnValue = '';     // Chrome এর জন্য
+      }
+    });
+  };
+</script>
+
+</head>
+<body class="bg-gray-100 decoration-solid 
+sm:bg-black
+md:bg-white
+lg:bg-blue-800
+xl:bg-green-900
+2xl:bg-white
+">
+<div class="
+sm: w-145 h-110 bg-white shadow-lg/200 mx-auto mt-5 p-5 rounded-lg
+
+">
+    
+    <!-- Show Main Balance -->
+    <div class="
+    sm: w-full bg-yellow-800 text-white rounded-lg p-1 mb-4 flex justify-center
+    ">
+      <h1 class="
+      sm: text-sm font-bold
+      
+      ">Main Balance:</h1>
+      <p id="mainbalance" class="
+      sm: text-sm font-bold ml-3">0</p>
+    </div>
+
+    <!-- Show Total Deposit & Withdraw -->
+    <div class="
+    sm: flex justify-between space-x-4 mb-4 h-30
+
+    ">
+      <div class="
+      sm:bg-green-900 text-white rounded-lg p-10 w-1/2
+     
+      ">
+        <h2 class="
+        sm: text-sm mb-2
+
+        ">Total Deposit Balance</h2>
+        <p id="depositbalance" class="
+      sm: text-xl font-bold
+      
+      ">0</p>
+      </div>
+      <div class="
+      sm: bg-red-800 text-white rounded-lg p-10 w-1/2
+      
+      ">
+        <h2 class="
+        sm:  2xl:text-sm mb-2
+        
+        ">Total Withdraw Balance</h2>
+        <p id="withdrawbalance" class="
+        sm: text-xl font-bold
+
+        ">0</p>
+      </div>
+    </div>
+
+    <!-- Deposit & Withdraw System -->
+    <div class="
+   sm: flex justify-between space-x-4 mb-6
+   
+   ">
+      <!-- Deposit -->
+      <div class="
+      sm: bg-rose-950 text-white rounded-lg p-6 w-1/2 
+      ">
+        <h3 class="
+       sm: text-sm mb-4
+        
+        ">Deposit Amount</h3>
+        <input id="depositValue" type="number" class="
+        sm: w-full mb-3 p-1 text-black rounded bg-white mb-5
+        
+        
+        " placeholder="Enter deposit amount">
+        <button id="depositbtn" class="
+       sm: w-25 rounded bg-rose-800 hover:bg-rose-600 py-2 rounded text-white font-semibold
+        
+        ">Deposit</button>
+      </div>
+
+      <!-- Withdraw -->
+      <div class="
+     sm: bg-cyan-900 text-white rounded-lg p-6 w-1/2
+
+      ">
+        <h3 class="
+    sm: text-sm mb-4
+        
+        ">Withdraw Amount</h3>
+        <input id="withdrawValue" type="number" class="
+        sm: w-full mb-3 p-1 text-black rounded bg-white mb-5
+        
+        " placeholder="Enter withdraw amount">
+        <button id="withdrawbtn" class="
+      sm: w-25 rounded bg-blue-950 hover:bg-blue-800 py-2 rounded text-white font-semibold
+        
+        ">Withdraw</button>
+      </div>
+    </div>
+  </div>
+
+<!--javascript-->
+<script>
+          // show function
+          const mainbalance=document.getElementById("mainbalance");
+          const depsitbalance=document.getElementById("depositbalance");
+          const withdrawbalance=document.getElementById("withdrawbalance");
+
+          // button
+const depositbtn=document.getElementById("depositbtn");
+const withdrawbtn=document.getElementById("withdrawbtn");
+// input value
+
+let depositValue=document.getElementById("depositValue");
+let withdrawValue=document.getElementById("withdrawValue")
+console.log(withdrawValue.value);
+
+
+// deposit function
+          let Banlance=0;
+          let totalDepost=0;
+          let totalwithdraw=0;
+          mainbalance.textContent=Banlance;
+          depositbtn.addEventListener("click" , () => {
+                    const depositAmount=parseFloat(depositValue.value);
+                    if(isNaN (depositAmount ) || depositAmount <=0){
+                              alert("Please enter a valid positive deposit amount.");
+                              return;
+                    }
+                    Banlance +=depositAmount;
+                    totalDepost +=depositAmount;
+                    mainbalance.textContent=Banlance;
+                    depsitbalance.textContent=totalDepost;
+                    depositValue.value='';
+          })
+
+
+          // withdraw system
+withdrawbtn.addEventListener("click" , () => {
+const withdrawAmount=parseFloat(withdrawValue.value);
+                    if(isNaN (withdrawAmount) || withdrawAmount <=0 || withdrawAmount>Banlance){
+                              alert("Insufficient Balance");
+                              return;
+                     }
+                    Banlance -=withdrawAmount;
+                    totalwithdraw +=withdrawAmount;
+                    mainbalance.textContent=Banlance;
+                    withdrawbalance.textContent=totalwithdraw;
+                    withdrawValue.value='';
+
+})
+</script>
+</body>
+</html>
